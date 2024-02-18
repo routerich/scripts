@@ -75,9 +75,11 @@ uci set network.tun0.proto='static'
 uci set network.tun0.device='tun0'
 uci set network.tun0.ipaddr='172.16.250.1'
 uci set network.tun0.netmask='255.255.255.0'
+uci commit network
 
 echo "Устоновка Фаервола"
 uci add_list firewall.cfg03dc81.network='tun0'
+uci commit firewall
 
 echo "Настройка Ruantiblock"
 uci set ruantiblock.config.proxy_mode='2'
@@ -97,7 +99,5 @@ echo "Запуск сервисов"
 /etc/init.d/vpn restart
 
 echo "Сохранение настроек"
-uci commit firewall
-uci commit network
 /etc/init.d/firewall restart
 /etc/init.d/network restart
