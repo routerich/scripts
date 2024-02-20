@@ -58,11 +58,11 @@ url="https://github.com/xjasonlyu/tun2socks/releases/download/v2.5.2/tun2socks-l
 temp_dir="/tmp/tun2socks"
 mkdir -p "$temp_dir"
 echo "Downloading a ZIP archive..."
-wget "$url" -O "$temp_dir/tun2socks-linux-arm64.zip" || { echo "Не удалось скачать ZIP-архив"; exit 1; }
+wget "$url" -O "$temp_dir/tun2socks-linux-arm64.zip" || { echo "The ZIP archive could not be downloaded"; exit 1; }
 echo "Unpacking the ZIP archive..."
-unzip -q "$temp_dir/tun2socks-linux-arm64.zip" -d "$temp_dir" || { echo "Не удалось распаковать ZIP-архив"; exit 1; }
+unzip -q "$temp_dir/tun2socks-linux-arm64.zip" -d "$temp_dir" || { echo "The ZIP archive could not be unzipped"; exit 1; }
 echo "Renaming the executable file..."
-mv "$temp_dir/tun2socks-linux-arm64" "$temp_dir/tun2socks" || { echo "Не удалось переименовать исполняемый файл"; exit 1; }
+mv "$temp_dir/tun2socks-linux-arm64" "$temp_dir/tun2socks" || { echo "Failed to rename the executable file"; exit 1; }
 echo "Adding execution permission..."
 chmod +x "$temp_dir/tun2socks" || { echo "Failed to add execution permission"; exit 1; }
 echo "Moving the file to /usr/bin/..."
