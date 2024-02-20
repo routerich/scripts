@@ -1,4 +1,4 @@
-﻿#!/bin/sh
+#!/bin/sh
 
 opkg update
 opkg install kmod-tun unzip
@@ -47,29 +47,29 @@ chmod +x /etc/init.d/vpn
 url="https://github.com/Snawoot/opera-proxy/releases/download/v1.2.5/opera-proxy.linux-arm64"
 destination_file="/usr/bin/vpns"
 
-echo "Загрузка файла..."
-wget "$url" -O "$destination_file" || { echo "Не удалось скачать файл"; exit 1; }
-echo "Добавление разрешения на выполнение..."
-chmod +x "$destination_file" || { echo "Не удалось добавить разрешение на выполнение"; exit 1; }
-echo "Файл успешно скачан и перемещен в $destination_file"
+echo "Uploading a file..."
+wget "$url" -O "$destination_file" || { echo "Failed to download the file"; exit 1; }
+echo "Adding execution permission..."
+chmod +x "$destination_file" || { echo "Failed to add execution permission"; exit 1; }
+echo "The file was successfully downloaded and moved to $destination_file"
 
 
 url="https://github.com/xjasonlyu/tun2socks/releases/download/v2.5.2/tun2socks-linux-arm64.zip"
 temp_dir="/tmp/tun2socks"
 mkdir -p "$temp_dir"
-echo "Загрузка ZIP-архива..."
-wget "$url" -O "$temp_dir/tun2socks-linux-arm64.zip" || { echo "Не удалось скачать ZIP-архив"; exit 1; }
-echo "Распаковка ZIP-архива..."
-unzip -q "$temp_dir/tun2socks-linux-arm64.zip" -d "$temp_dir" || { echo "Не удалось распаковать ZIP-архив"; exit 1; }
-echo "Переименование исполняемого файла..."
-mv "$temp_dir/tun2socks-linux-arm64" "$temp_dir/tun2socks" || { echo "Не удалось переименовать исполняемый файл"; exit 1; }
-echo "Добавление разрешения на выполнение..."
-chmod +x "$temp_dir/tun2socks" || { echo "Не удалось добавить разрешение на выполнение"; exit 1; }
-echo "Перемещение файла в /usr/bin/..."
-mv "$temp_dir/tun2socks" "/usr/bin/" || { echo "Не удалось переместить файл в /usr/bin/"; exit 1; }
-echo "Файл успешно скачан, распакован, переименован и перемещен в /usr/bin/"
+echo "Downloading a ZIP archive..."
+wget "$url" -O "$temp_dir/tun2socks-linux-arm64.zip" || { echo "�� ������� ������� ZIP-�����"; exit 1; }
+echo "Unpacking the ZIP archive..."
+unzip -q "$temp_dir/tun2socks-linux-arm64.zip" -d "$temp_dir" || { echo "�� ������� ����������� ZIP-�����"; exit 1; }
+echo "Renaming the executable file..."
+mv "$temp_dir/tun2socks-linux-arm64" "$temp_dir/tun2socks" || { echo "�� ������� ������������� ����������� ����"; exit 1; }
+echo "Adding execution permission..."
+chmod +x "$temp_dir/tun2socks" || { echo "Failed to add execution permission"; exit 1; }
+echo "Moving the file to /usr/bin/..."
+mv "$temp_dir/tun2socks" "/usr/bin/" || { echo "Failed to move file to /usr/bin/"; exit 1; }
+echo "The file was successfully downloaded, unpacked, renamed and moved to /usr/bin/"
 
-echo "Устоновка интерфейса TUN0"
+echo "Installing the TUN0 interface"
 uci set network.tun0=interface
 uci set network.tun0.proto='static'
 uci set network.tun0.device='tun0'
@@ -77,11 +77,11 @@ uci set network.tun0.ipaddr='172.16.250.1'
 uci set network.tun0.netmask='255.255.255.0'
 uci commit network
 
-echo "Устоновка Фаервола"
+echo "Installing a Firewall"
 uci add_list firewall.cfg03dc81.network='tun0'
 uci commit firewall
 
-echo "Настройка Ruantiblock"
+echo "Configuring Ruantiblock"
 uci set ruantiblock.config.proxy_mode='2'
 uci set ruantiblock.config.bllist_preset='ruantiblock-fqdn'
 uci set ruantiblock.config.add_user_entries='1'
@@ -92,12 +92,12 @@ uci commit ruantiblock
 echo "0 3 */3 * * /usr/bin/ruantiblock update" >> /etc/crontabs/root
 /etc/init.d/cron restart
 
-echo "Запуск сервисов"
+echo "Launching services"
 /etc/init.d/tun2socks enable
 /etc/init.d/vpn enable
-/etc/init.d/tun2socks restart
-/etc/init.d/vpn restart
+/etc/init.d/tun2socks start
+/etc/init.d/vpn start
 
-echo "Сохранение настроек"
+echo "Saving settings"
 /etc/init.d/firewall restart
 /etc/init.d/network restart
