@@ -44,7 +44,7 @@ EOF
 chmod +x /etc/init.d/tun2socks
 chmod +x /etc/init.d/vpn
 
-url="https://github.com/Snawoot/opera-proxy/releases/download/v1.3.1/opera-proxy.linux-arm64"
+url="https://github.com/Snawoot/opera-proxy/releases/download/v1.4.1/opera-proxy.linux-arm64"
 destination_file="/usr/bin/vpns"
 
 echo "Uploading a file..."
