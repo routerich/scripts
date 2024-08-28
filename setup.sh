@@ -2,6 +2,8 @@
 
 opkg update
 opkg install kmod-tun unzip
+service vpn disable
+service vpn stop
 cat <<'EOF' > /etc/init.d/tun2socks
 #!/bin/sh /etc/rc.common
 # Copyright (C) 2011 OpenWrt.org
