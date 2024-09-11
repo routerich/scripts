@@ -1,5 +1,5 @@
 #!/bin/sh
-
+wget --no-check-certificate -O /tmp/autoinstall.sh https://raw.githubusercontent.com/gSpotx2f/ruantiblock_openwrt/master/autoinstall/current/autoinstall.sh && chmod +x /tmp/autoinstall.sh && y | /tmp/autoinstall.sh
 opkg update
 opkg install kmod-tun unzip
 service vpn disable
