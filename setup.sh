@@ -103,3 +103,4 @@ echo "Launching services"
 echo "Saving settings"
 /etc/init.d/firewall restart
 /etc/init.d/network restart
+reboot
