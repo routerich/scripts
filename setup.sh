@@ -90,6 +90,7 @@ uci set ruantiblock.config.add_user_entries='1'
 uci commit ruantiblock
 /usr/bin/ruantiblock update
 /etc/init.d/ruantiblock enable
+/usr/bin/ruantiblock start
 /etc/init.d/cron enable
 echo "0 3 */3 * * /usr/bin/ruantiblock update" >> /etc/crontabs/root
 /etc/init.d/cron restart
