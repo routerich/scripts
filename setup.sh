@@ -1,5 +1,8 @@
 #!/bin/sh
-wget --no-check-certificate -O /tmp/autoinstall.sh https://raw.githubusercontent.com/gSpotx2f/ruantiblock_openwrt/master/autoinstall/current/autoinstall.sh && chmod +x /tmp/autoinstall.sh && printf '%s\n' 2 2 Y Y | /tmp/autoinstall.sh
+
+wget --no-check-certificate -O /tmp/uninstall.sh https://raw.githubusercontent.com/gSpotx2f/ruantiblock_openwrt/master/autoinstall/2.x/uninstall.sh && chmod +x /tmp/uninstall.sh && printf '%s\n' Y | /tmp/uninstall.sh
+
+wget --no-check-certificate -O /tmp/autoinstall.sh https://raw.githubusercontent.com/gSpotx2f/ruantiblock_openwrt/master/autoinstall/2.x/autoinstall.sh && chmod +x /tmp/autoinstall.sh && printf '%s\n' 2 2 Y Y Y | /tmp/autoinstall.sh
 opkg update
 opkg install kmod-tun unzip
 service vpn disable
@@ -92,7 +95,6 @@ uci commit ruantiblock
 /etc/init.d/ruantiblock enable
 /usr/bin/ruantiblock start
 /etc/init.d/cron enable
-echo "0 3 */3 * * /usr/bin/ruantiblock update" >> /etc/crontabs/root
 /etc/init.d/cron restart
 
 echo "Launching services"
@@ -104,4 +106,3 @@ echo "Launching services"
 echo "Saving settings"
 /etc/init.d/firewall restart
 /etc/init.d/network restart
-reboot
