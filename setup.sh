@@ -91,9 +91,9 @@ uci set ruantiblock.config.proxy_mode='2'
 uci set ruantiblock.config.bllist_preset='ruantiblock-fqdn'
 uci set ruantiblock.config.add_user_entries='1'
 uci commit ruantiblock
+/usr/bin/ruantiblock start
 /usr/bin/ruantiblock update
 /etc/init.d/ruantiblock enable
-/usr/bin/ruantiblock start
 /etc/init.d/cron enable
 /etc/init.d/cron restart
 
