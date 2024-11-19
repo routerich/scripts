@@ -39,6 +39,8 @@ echo "Adding execution permission..."
 chmod +x "$destination_file" || { echo "Failed to add execution permission"; exit 1; }
 echo "The file was successfully downloaded and moved to $destination_file"
 
+service vpn start
+
 cat <<EOF > /etc/sing-box/config.json
   {
     "log": {
@@ -84,7 +86,4 @@ service sing-box enable
 service sing-box restart
 service ruantiblock enable
 service ruantiblock restart
-
-echo "Saving settings"
-service firewall restart
-service network restart
+ruantiblock update
