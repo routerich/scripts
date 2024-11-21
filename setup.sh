@@ -6,10 +6,6 @@ wget --no-check-certificate -O /tmp/autoinstall.sh https://raw.githubusercontent
 
 opkg install unzip sing-box
 
-
-service vpn disable
-service vpn stop
-
 cat <<'EOF' > /etc/init.d/vpn
 #!/bin/sh /etc/rc.common
 # Copyright (C) 2011 OpenWrt.org
@@ -38,8 +34,6 @@ wget "$url" -O "$destination_file" || { echo "Failed to download the file"; exit
 echo "Adding execution permission..."
 chmod +x "$destination_file" || { echo "Failed to add execution permission"; exit 1; }
 echo "The file was successfully downloaded and moved to $destination_file"
-
-service vpn start
 
 cat <<EOF > /etc/sing-box/config.json
   {
@@ -82,6 +76,8 @@ uci commit ruantiblock
 
 
 echo "Launching services"
+service vpn enable
+service vpn restart
 service sing-box enable
 service sing-box restart
 service ruantiblock enable
