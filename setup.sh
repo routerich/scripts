@@ -6,40 +6,16 @@ wget --no-check-certificate -O /tmp/autoinstall.sh https://raw.githubusercontent
 
 opkg install unzip sing-box
 
-cat <<'EOF' > /etc/init.d/vpn
-#!/bin/sh /etc/rc.common
-# Copyright (C) 2011 OpenWrt.org
-
-USE_PROCD=1
-START=40
-STOP=89
-PROG=/usr/bin/vpns
-start_service() {
-        procd_open_instance
-        procd_set_param command "$PROG" -verbosity 50
-        procd_set_param stdout 1
-        procd_set_param stderr 1
-        procd_set_param respawn ${respawn_threshold:-3600} ${respawn_timeout:-5} ${respawn_retry:-5}
-        procd_close_instance
-}
-EOF
-
-chmod +x /etc/init.d/vpn
-
-url="https://github.com/Snawoot/opera-proxy/releases/download/v1.6.0/opera-proxy.linux-arm64"
-destination_file="/usr/bin/vpns"
-
-echo "Uploading a file..."
-wget "$url" -O "$destination_file" || { echo "Failed to download the file"; exit 1; }
-echo "Adding execution permission..."
-chmod +x "$destination_file" || { echo "Failed to add execution permission"; exit 1; }
-echo "The file was successfully downloaded and moved to $destination_file"
+echo "Install opera-proxy client"
+service stop vpn > /dev/null
+rm -f /usr/bin/vpns /etc/init.d/vpn
+opkg install https://github.com/NitroOxid/openwrt-opera-proxy-bin/releases/download/1.6.0/opera-proxy_1.6.0-r1_aarch64_cortex-a53.ipk
 
 cat <<EOF > /etc/sing-box/config.json
   {
     "log": {
-  	"disabled": true,
-  	"level": "error"
+    "disabled": true,
+    "level": "error"
   },
   "inbounds": [
     {
@@ -68,16 +44,26 @@ uci set sing-box.main.user='root'
 uci commit sing-box
 
 
-echo "Configuring Ruantiblock"
+echo "Configuring Ruantiblock..."
 uci set ruantiblock.config.proxy_mode='3'
 uci set ruantiblock.config.t_proxy_type='1'
 uci set ruantiblock.config.bllist_preset='ruantiblock-fqdn'
+
+echo "Configuring custom lists..."
+uci set ruantiblock.list1.u_proxy_mode='3'
+uci set ruantiblock.list1.u_t_proxy_type='1'
+uci set ruantiblock.list2.u_proxy_mode='3'
+uci set ruantiblock.list2.u_t_proxy_type='1'
+uci set ruantiblock.list3.u_proxy_mode='3'
+uci set ruantiblock.list3.u_t_proxy_type='1'
+uci set ruantiblock.list4.u_proxy_mode='3'
+uci set ruantiblock.list4.u_t_proxy_type='1'
+uci set ruantiblock.list5.u_proxy_mode='3'
+uci set ruantiblock.list5.u_t_proxy_type='1'
 uci commit ruantiblock
 
 
 echo "Launching services"
-service vpn enable
-service vpn restart
 service sing-box enable
 service sing-box restart
 service ruantiblock enable
