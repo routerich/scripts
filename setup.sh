@@ -14,8 +14,8 @@ opkg install https://github.com/NitroOxid/openwrt-opera-proxy-bin/releases/downl
 cat <<EOF > /etc/sing-box/config.json
   {
     "log": {
-  	"disabled": true,
-  	"level": "error"
+    "disabled": true,
+    "level": "error"
   },
   "inbounds": [
     {
@@ -44,10 +44,22 @@ uci set sing-box.main.user='root'
 uci commit sing-box
 
 
-echo "Configuring Ruantiblock"
+echo "Configuring Ruantiblock..."
 uci set ruantiblock.config.proxy_mode='3'
 uci set ruantiblock.config.t_proxy_type='1'
 uci set ruantiblock.config.bllist_preset='ruantiblock-fqdn'
+
+echo "Configuring custom lists..."
+uci set ruantiblock.list1.u_proxy_mode='3'
+uci set ruantiblock.list1.u_t_proxy_type='1'
+uci set ruantiblock.list2.u_proxy_mode='3'
+uci set ruantiblock.list2.u_t_proxy_type='1'
+uci set ruantiblock.list3.u_proxy_mode='3'
+uci set ruantiblock.list3.u_t_proxy_type='1'
+uci set ruantiblock.list4.u_proxy_mode='3'
+uci set ruantiblock.list4.u_t_proxy_type='1'
+uci set ruantiblock.list5.u_proxy_mode='3'
+uci set ruantiblock.list5.u_t_proxy_type='1'
 uci commit ruantiblock
 
 
