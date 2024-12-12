@@ -9,7 +9,14 @@ opkg install unzip sing-box
 echo "Install opera-proxy client"
 service stop vpn > /dev/null
 rm -f /usr/bin/vpns /etc/init.d/vpn
-opkg install https://github.com/NitroOxid/openwrt-opera-proxy-bin/releases/download/1.6.0/opera-proxy_1.6.0-r1_aarch64_cortex-a53.ipk
+
+url="https://github.com/NitroOxid/openwrt-opera-proxy-bin/releases/download/1.6.0/opera-proxy_1.6.0-r1_aarch64_cortex-a53.ipk"
+destination_file="/tmp/opera-proxy.ipk"
+
+echo "Downlading opera-proxy..."
+wget "$url" -O "$destination_file" || { echo "Failed to download the file"; exit 1; }
+echo "Installing opera-proxy..."
+opkg install $destination_file
 
 cat <<EOF > /etc/sing-box/config.json
   {
